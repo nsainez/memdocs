@@ -32,6 +32,10 @@ This article describes known issues that can often be resolved by configuration 
 
 A device object is pre-created in Azure AD once a device is registered in Autopilot. If a device goes through a hybrid Azure AD deployment, by design, another device object is created resulting in duplicate entries. 
 
+### Autopilot & Device-based Conditional Access policies
+There should be a consideration for Conditional Access policies that enforce device compliance when Autopiloting Hybrid Azure AD Joined devices. There are 2 device ID's for the same device name after the Autopilot process is completed (1 Azure AD Joined device which is compliant and 1 Hybrid Azure AD Joined device whose compliance state says 'N/A', viewed from the Devices List on Azure Portal). The Intune service is only able to sync with the new device id that points to the Hybrid device once the user successfully sign-in's once. Once this occurs, then the device ID pointing to the Hybrid Azure AD Joined device reports as 'Compliant'. This could cause issues for users in scope of a device-based Conditional Access policy that blocks based on device compliance, for example.
+
+
 ### TPM attestation failure on Windows 11 error code 0x81039024
 
 Some devices may fail TPM attestation on Windows 11 during the pre-provisioning technician flow or self-deployment mode with the error code 0x81039024. This error code indicates that there are known vulnerabilities detected with the TPM and as a result will fail attestation. If you receive this error, please visit your PC manufacturer’s website to update the TPM firmware.
